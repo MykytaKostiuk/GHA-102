@@ -1,6 +1,6 @@
 name: 04 - Using Actions
 on: 
-  push:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,6 +22,10 @@ jobs:
         run: |
           ls -lah
           npm ci
+      - name: Run Unit Tests
+        working-directory: 04-using-actions/react-app
+        run: |
+          npm run test
            
           
           

@@ -7,6 +7,8 @@ env:
   WORKFLOW_VAR: "I am a workflow env var"   
   OVERWRITTEN: "I will be overwritten"
 
+run-name: "08 - Using Variables | Workflow overwritten var: $OVERWRITTEN"
+
 jobs:
   echo:
     env:
@@ -29,7 +31,7 @@ jobs:
           OVERWRITTEN: I have been overwritten at the step level
           step_var2: I am another step var
         run: |
-          echo "Step env var: $OVERWRITTEN"
+          echo "Step env var: ${{env.OVERWRITTEN}}"
 
 
 

@@ -7,9 +7,9 @@ jobs:
   echo1:
     runs-on: ubuntu-latest
     steps:
-      - name: Failing step
-        run: |
-          exit -1
+      # - name: Failing step
+      #   run: |
+      #     exit -1
       - name: Print PR title
         if: github.event_name == 'pull_request'
         run: |

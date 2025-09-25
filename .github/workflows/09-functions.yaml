@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Failing step
         run: |
-          exit -1
+          echo "exit -1"
       - name: Print PR title
         if: github.event_name == 'pull_request'
         run: |

@@ -22,7 +22,9 @@ jobs:
           echo ${{toJson(inputs.pass-unit-tests) == false}}
           echo ${{toJson(inputs.pass-unit-tests)}}
           echo ${{inputs.pass-unit-tests}}
+          echo ${{inputs.pass-unit-tests == false}}
           echo "${{inputs.pass-unit-tests == 'false'}}"
+          echo "${{!inputs.pass-unit-tests}}"
       - name: Failing tests
         if: ${{toJson(inputs.pass-unit-tests) == false}}
         run: | 

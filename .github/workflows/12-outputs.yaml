@@ -23,6 +23,7 @@ jobs:
       - name: Build
         id: build
         run: |
+          echo "$GITHUB_OUTPUT"
           echo "status=${{ inputs.build-status }}" >> "$GITHUB_OUTPUT"
           echo "output1=value1" >> "$GITHUB_OUTPUT"
           echo "basic file:" && cat "$GITHUB_OUTPUT"
@@ -30,6 +31,7 @@ jobs:
           echo "result file:" && cat "$GITHUB_OUTPUT"
       - name: Step With Mistake
         run: |
+          echo "$GITHUB_OUTPUT"
           echo "output2=value2" >> "$GITHUB_OUTPUT"
           cat "$GITHUB_OUTPUT"
           

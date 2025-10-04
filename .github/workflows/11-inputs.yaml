@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Deploy
         run: | 
-          echo "Deploying to ${{inputs.tag}}"
+          echo "Deploying to ${{inputs.target}}"
 
 
 

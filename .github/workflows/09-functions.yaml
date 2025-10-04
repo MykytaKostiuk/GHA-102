@@ -24,7 +24,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: | 
               cat << EOF
-              ${{ toJSON(github.event.pull_request.labels) }}
+              ${{ toJson(github.event.pull_request.labels) }}
               EOF
       - name: Bug step
         if: ${{

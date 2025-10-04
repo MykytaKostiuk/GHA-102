@@ -19,7 +19,10 @@ jobs:
       - name: Running unit tests
         run: | 
           echo "Running tests..."
+          echo ${{toJson(inputs.pass-unit-tests) == false}}
           echo ${{toJson(inputs.pass-unit-tests)}}
+          echo ${{inputs.pass-unit-tests}}
+          echo "${{inputs.pass-unit-tests == 'false'}}"
       - name: Failing tests
         if: ${{toJson(inputs.pass-unit-tests) == false}}
         run: | 

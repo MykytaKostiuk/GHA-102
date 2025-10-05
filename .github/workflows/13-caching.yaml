@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         # if: steps.cache.outputs.cache-hit != 'true'
         run: | 
-          echo "${steps.cache.outputs.cache-hit}"
+          echo steps.cache.outputs.cache-hit
           echo "${{steps.cache.outputs.cache-hit}}"
           npm ci
       - name: Testing

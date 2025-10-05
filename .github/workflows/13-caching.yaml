@@ -43,14 +43,14 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: | 
           echo "${{steps.cache.outputs.cache-hit}}"
-          # npm ci
-      # - name: Testing
-      #   run: | 
-      #     npm run test
-      # - name: Building
-      #   run: | 
-      #     npm run build
-      # - name: Deploying to nonprod
-      #   run: | 
-      #     echo "Deploying to nonprod"
+          npm ci
+      - name: Testing
+        run: | 
+          npm run test
+      - name: Building
+        run: | 
+          npm run build
+      - name: Deploying to nonprod
+        run: | 
+          echo "Deploying to nonprod"
           

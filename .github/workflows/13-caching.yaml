@@ -1,6 +1,6 @@
 name: 13 - Using Caching
-on: 
-  workflow_dispatch: 
+on:
+  workflow_dispatch:
     inputs:
       use-cache:
         type: boolean
@@ -16,7 +16,7 @@ on:
         default: 20.x
         description: Node version
 
-permissions: 
+permissions:
   contents: read
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
           node-version: ${{inputs.node-version}}
       - name: Calculate cache key
         id: cache-key
-        run: | 
+        run: |
           echo "CACHE_KEY=deps-node-modules-${{ hashFiles('13-caching/react-app/package-lock.json') }}" >> "$GITHUB_OUTPUT"
       - name: Download cached dependencies
         id: cache
@@ -47,7 +47,7 @@ jobs:
           path: 13-caching/react-app/node_modules
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: | 
+        run: |
           echo "${{steps.cache.outputs.cache-hit}}"
           npm ci
   build:
@@ -70,13 +70,13 @@ jobs:
           key: ${{needs.install-deps.outputs.cache-key}}
           path: 13-caching/react-app/node_modules
       - name: Testing
-        run: | 
+        run: |
           npm run test
       - name: Building
-        run: | 
+        run: |
           npm run build
       - name: Deploying to nonprod
-        run: | 
+        run: |
           echo "Deploying to nonprod"
   linting:
     runs-on: ubuntu-latest
@@ -97,10 +97,8 @@ jobs:
           key: ${{needs.install-deps.outputs.cache-key}}
           path: 13-caching/react-app/node_modules
       - name: Testing
-        run: | 
+        run: |
           npm run test
       - name: Linting
-        run: | 
+        run: |
           echo "Linting..."
-
-          

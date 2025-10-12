@@ -47,6 +47,6 @@ jobs:
           path: build
       - name: Show folder structure
         run: | 
-          echo ls -R
+          ls -R
           
       

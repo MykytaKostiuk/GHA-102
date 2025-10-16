@@ -8,16 +8,31 @@ jobs:
     runs-on: ${{matrix.os}}
     name: ${{matrix.os}}-${{matrix.node}}
     strategy:
+      fail-fast: true
       matrix:
-        node: [14, 16, 18, 20]
+        include:
+          - node: 16.x
+            os: ubuntu-latest
+          - node: 21.x
+            os: ubuntu-latest
+            tag: experimental
+        node: [18, 20, 21.x]
         os:
           - ubuntu-latest
           - windows-latest
+        experimental: [false]
     steps:
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
           node-version: ${{matrix.node}}
+      - name: Fail if experimental
+        if: ${{ matrix.experimental }}
+        run: exit -1
       - name: Perform some tests
         run: | 
+          sleep 10
           echo "Running tests on OS ${{matrix.os}} and NodeJS ${{matrix.node}}"
+      - name: Upload test results
+        run: | 
+          echo "Uploading test results"

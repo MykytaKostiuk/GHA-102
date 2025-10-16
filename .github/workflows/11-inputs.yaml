@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Print-comment
         run: | 
-          echo "Comment's length: ${{ inputs.comment.length }}"
+          echo "Comment's length: $(echo -n "${{inputs.comment}}" | wc -c)"
           echo "${{inputs.comment}}"
   deploy:
     runs-on: ubuntu-latest

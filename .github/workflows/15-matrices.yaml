@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{matrix.os}}
     name: ${{matrix.os}}-${{matrix.node}}
     strategy:
-      # fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - node: 16.x

@@ -8,8 +8,10 @@ jobs:
     runs-on: ${{matrix.os}}
     name: ${{matrix.os}}-${{matrix.node}}
     strategy:
+      # default: true
       fail-fast: false
       matrix:
+        # extend the configuration with 'include'
         include:
           - node: 16.x
             os: ubuntu-latest
@@ -35,3 +37,25 @@ jobs:
       - name: Upload test results
         run: | 
           echo "Uploading test results"
+  include-example:
+    runs-on: ubuntu-latest
+    name: ${{matrix.color}}-${{matrix.shape}}-${{matrix.size}}
+    strategy:
+      matrix:
+        include:
+          - color: red
+            shape: triangle
+        color: 
+          - red
+          - green
+        shape:
+          - circle
+          - square
+        size:
+          - small
+          - large
+    steps:
+      - name: Dummy step
+        run: |
+          echo ${{matrix.color}}-${{matrix.shape}}-${{matrix.size}}
+         

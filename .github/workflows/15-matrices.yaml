@@ -43,6 +43,7 @@ jobs:
     strategy:
       matrix:
         include:
+          - opacity: 50
           - color: red
             shape: triangle
         color: 

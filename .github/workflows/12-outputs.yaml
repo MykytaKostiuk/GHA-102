@@ -9,6 +9,7 @@ on:
           - success
           - failure
         default: success
+        description: 'Choose build outcome (success or failure)'
 
 jobs:
   build:

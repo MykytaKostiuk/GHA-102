@@ -18,6 +18,7 @@ jobs:
           - node: 21.x
             os: ubuntu-latest
             tag: experimental
+        # dimentions
         node: [18, 20, 21.x]
         os:
           - ubuntu-latest
@@ -50,6 +51,9 @@ jobs:
           - color: red
             shape: triangle
           - opacity: 50
+        exclude:
+          - opacity: 75
+          # dimentions
         color: 
           - red
           - green

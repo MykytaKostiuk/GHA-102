@@ -8,7 +8,7 @@ on:
         default: staging
         description: Select the Environment to deploy to
 
-run-name: 16 - Working with Environments | env - {{ inputs.target-env }}
+run-name: 16 - Working with Environments | env - ${{ inputs.target-env }}
 
 jobs:
   echo:

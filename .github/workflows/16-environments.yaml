@@ -29,4 +29,4 @@ jobs:
     steps:
       - name: Echo vars
         run: |
-          echo "Deploying to prod"
+          echo "Running E2E"

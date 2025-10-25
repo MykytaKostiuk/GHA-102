@@ -35,11 +35,4 @@ runs:
       shell: bash
       run: | 
         echo "Install Dependencies"
-        if [[ ${{inputs.target-env}} == "dev" ]]
-        then
-          echo "Installing dev dependencies"
-          npm ci
-        else
-          echo "Installing only production dependencies"
-          npm ci --omit=dev
-        fi
+        ${{inputs.target-env}} == "dev" && npm ci || npm install --omit=dev

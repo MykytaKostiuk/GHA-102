@@ -29,10 +29,10 @@ async function run() {
   core.info(`Target branch: ${targetBranch}`);
   core.info(`Working directory: ${workingDirectory}`);
 
-  exec.exec('echo "Current directory:"');
-  exec.exec('pwd');
-  exec.exec(`cd ${workingDirectory}`);
-  exec.exec('echo "Current directory:" $(pwd)');
+  await exec.exec('echo "Current directory:"');
+  await exec.exec('pwd');
+  await exec.exec(`cd ${workingDirectory}`);
+  await exec.exec('echo "Current directory:" $(pwd)');
   updatePackages();
   const dependenciesStatus = await getDependenciesUpdateStatus();
   const statusOut = dependenciesStatus.stdout;

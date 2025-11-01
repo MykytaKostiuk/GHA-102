@@ -20051,7 +20051,7 @@ async function run() {
   process.chdir(import_path.default.join(process.cwd(), workingDirectory));
   console.log("Current directory:", process.cwd());
   await exec.exec("pwd");
-  updatePackages();
+  await updatePackages();
   const dependenciesStatus = await getDependenciesUpdateStatus();
   const statusOut = dependenciesStatus.stdout;
   core.info(`Dependencies Status: ${statusOut}`);
@@ -20072,7 +20072,7 @@ function directoryValidator(value, key) {
 }
 async function updatePackages() {
   const out = await exec.getExecOutput(`npm update`);
-  core.info(`OUT [npm update]: ${out}`);
+  core.info(`OUT [npm update]: ${JSON.stringify(out)}`);
 }
 async function getDependenciesUpdateStatus() {
   const out = await exec.getExecOutput(`git status -s package*.json`);

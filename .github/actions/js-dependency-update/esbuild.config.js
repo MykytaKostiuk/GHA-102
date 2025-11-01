@@ -7,7 +7,7 @@ esbuild.build({
   platform: 'node',
   target: 'node16',
   sourcemap: false,
-  minify: true,
+  minify: false,
 }).catch(() => process.exit(1));
 
 

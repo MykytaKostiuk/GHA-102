@@ -135,3 +135,5 @@ out
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+.github/actions/**/node_modules

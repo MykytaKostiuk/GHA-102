@@ -24,6 +24,18 @@ async function run() {
   branchNameValidator(baseBranch, 'base-branch');
   branchNameValidator(targetBranch, 'target-branch');
   directoryValidator(workingDirectory, 'working-directory');
+
+  core.info(`Base branch: ${baseBranch}`);
+  core.info(`Target branch: ${targetBranch}`);
+  core.info(`Working directory: ${workingDirectory}`);
+
+  exec.exec(`cd ${workingDirectory}`);
+  exec.exec('echo "Current directory:" $(pwd)')
+  updatePackages();
+  const dependenciesStatus = await getDependenciesUpdateStatus();
+  const statusOut = dependenciesStatus.stdout;
+  core.info(`Dependencies Status: ${statusOut}`);
+
 }
 
 function branchNameValidator(value: string, key: string) {
@@ -40,6 +52,16 @@ function directoryValidator(value: string, key: string) {
   if (!regex.test(value)) {
     core.setFailed(`Invalid ${key} name: ${value}`);
   }
+}
+
+async function updatePackages() {
+  const out = await exec.getExecOutput(`npm update`);
+  core.info(`OUT [npm update]: ${out}`)
+}
+
+async function getDependenciesUpdateStatus(): Promise<exec.ExecOutput> {
+  const out = await exec.getExecOutput(`git status -s package*.json`);
+  return out;
 }
 
 run();

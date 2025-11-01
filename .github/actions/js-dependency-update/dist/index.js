@@ -20071,12 +20071,10 @@ function directoryValidator(value, key) {
   }
 }
 async function updatePackages() {
-  const out = await exec.getExecOutput(`npm update`);
-  core.info(`OUT [npm update]: ${JSON.stringify(out)}`);
+  return await exec.exec(`npm update`);
 }
 async function getDependenciesUpdateStatus() {
-  const out = await exec.getExecOutput(`git status -s package*.json`);
-  return out;
+  return exec.getExecOutput(`git status -s package*.json`);
 }
 run();
 /*! Bundled license information:

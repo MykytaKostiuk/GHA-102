@@ -20047,6 +20047,7 @@ async function run() {
   core.info(`Base branch: ${baseBranch}`);
   core.info(`Target branch: ${targetBranch}`);
   core.info(`Working directory: ${workingDirectory}`);
+  exec.exec('echo "Current directory:" $(pwd)');
   exec.exec(`cd ${workingDirectory}`);
   exec.exec('echo "Current directory:" $(pwd)');
   updatePackages();

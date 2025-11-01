@@ -20036,6 +20036,7 @@ var core = __toESM(require_core());
 var exec = __toESM(require_exec());
 var import_path = __toESM(require("path"));
 async function run() {
+  var _a;
   core.info("I am a custom JS action");
   const baseBranch = core.getInput("base-branch");
   const targetBranch = core.getInput("target-branch");
@@ -20055,6 +20056,11 @@ async function run() {
   const dependenciesStatus = await getDependenciesUpdateStatus();
   const statusOut = dependenciesStatus.stdout;
   core.info(`Dependencies Status: ${statusOut}`);
+  if (((_a = statusOut == null ? void 0 : statusOut.trim) == null ? void 0 : _a.length) > 0) {
+    console.log("package*.json files were changed");
+  } else {
+    core.info("no updates in package*.json files");
+  }
 }
 function branchNameValidator(value, key) {
   const regex = /^[a-zA-Z0-9_.\/-]+$/;

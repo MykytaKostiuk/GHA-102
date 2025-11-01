@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
+import { log } from 'console';
 import path from 'path';
 
 
@@ -33,12 +34,18 @@ async function run() {
 
   process.chdir(path.join(process.cwd(), workingDirectory));
   console.log('Current directory:', process.cwd());
-  
+
   await exec.exec('pwd');
   await updatePackages();
   const dependenciesStatus = await getDependenciesUpdateStatus();
   const statusOut = dependenciesStatus.stdout;
   core.info(`Dependencies Status: ${statusOut}`);
+
+  if (statusOut?.trim?.length > 0) {
+    console.log('package*.json files were changed');
+  } else {
+    core.info('no updates in package*.json files');
+  }
 
 }
 

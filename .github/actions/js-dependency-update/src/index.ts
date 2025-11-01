@@ -1,5 +1,7 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
+import path from 'path';
+
 
 async function run() {
   /*
@@ -29,10 +31,12 @@ async function run() {
   core.info(`Target branch: ${targetBranch}`);
   core.info(`Working directory: ${workingDirectory}`);
 
-  await exec.exec('echo "Current directory:"');
+  process.chdir(path.join(process.cwd(), workingDirectory));
+  console.log('Current directory:', process.cwd());
+  
   await exec.exec('pwd');
-  await exec.exec(`cd ${workingDirectory}`);
-  await exec.exec('echo "Current directory:" $(pwd)');
+  // await exec.exec(`cd ${workingDirectory}`);
+  // await exec.exec('echo "Current directory:" $(pwd)');
   updatePackages();
   const dependenciesStatus = await getDependenciesUpdateStatus();
   const statusOut = dependenciesStatus.stdout;

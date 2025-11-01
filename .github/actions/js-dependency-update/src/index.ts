@@ -32,15 +32,11 @@ async function run() {
   core.info(`Target branch: ${targetBranch}`);
   core.info(`Working directory: ${workingDirectory}`);
 
-  process.chdir(path.join(process.cwd(), workingDirectory));
-  console.log('Current directory:', process.cwd());
-
-  await exec.exec('pwd');
-  await updatePackages();
+  await updatePackages(workingDirectory);
   const dependenciesStatus = await getDependenciesUpdateStatus();
   const statusOut = dependenciesStatus.stdout;
   core.info(`Dependencies Status: ${statusOut}`);
-  
+
   if (statusOut?.trim()?.length > 0) {
     core.info('package*.json files were changed');
   } else {
@@ -65,8 +61,10 @@ function directoryValidator(value: string, key: string) {
   }
 }
 
-async function updatePackages() {
-  return await exec.exec(`npm update`);
+async function updatePackages(worfkingDir: string) {
+  return await exec.exec(`npm update`, [], {
+    cwd: worfkingDir,
+  });
 }
 
 async function getDependenciesUpdateStatus(): Promise<exec.ExecOutput> {

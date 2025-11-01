@@ -40,9 +40,9 @@ async function run() {
   const dependenciesStatus = await getDependenciesUpdateStatus();
   const statusOut = dependenciesStatus.stdout;
   core.info(`Dependencies Status: ${statusOut}`);
-
-  if (statusOut?.trim?.length > 0) {
-    console.log('package*.json files were changed');
+  
+  if (statusOut?.trim()?.length > 0) {
+    core.info('package*.json files were changed');
   } else {
     core.info('no updates in package*.json files');
   }

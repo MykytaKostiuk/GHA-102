@@ -20052,9 +20052,9 @@ async function run() {
   const dependenciesStatus = await getDependenciesUpdateStatus(workingDirectory);
   const statusOut = dependenciesStatus.stdout;
   if (((_a = statusOut == null ? void 0 : statusOut.trim()) == null ? void 0 : _a.length) > 0) {
-    core.info(`package*.json files were changed: ${statusOut}`);
+    core.info(`Updates are available: ${statusOut}`);
   } else {
-    core.info("no updates in package*.json files");
+    core.info("no updates found");
   }
 }
 function branchNameValidator(value, key) {

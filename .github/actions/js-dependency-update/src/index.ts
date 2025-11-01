@@ -33,12 +33,11 @@ async function run() {
   core.info(`Working directory: ${workingDirectory}`);
 
   await updatePackages(workingDirectory);
-  const dependenciesStatus = await getDependenciesUpdateStatus();
+  const dependenciesStatus = await getDependenciesUpdateStatus(workingDirectory);
   const statusOut = dependenciesStatus.stdout;
-  core.info(`Dependencies Status: ${statusOut}`);
 
   if (statusOut?.trim()?.length > 0) {
-    core.info('package*.json files were changed');
+    core.info(`package*.json files were changed: ${statusOut}`);
   } else {
     core.info('no updates in package*.json files');
   }
@@ -67,8 +66,10 @@ async function updatePackages(worfkingDir: string) {
   });
 }
 
-async function getDependenciesUpdateStatus(): Promise<exec.ExecOutput> {
-  return exec.getExecOutput(`git status -s package*.json`);
+async function getDependenciesUpdateStatus(worfkingDir: string): Promise<exec.ExecOutput> {
+  return exec.getExecOutput(`git status -s package*.json`, [], {
+    cwd: worfkingDir,
+  });
 }
 
 run();

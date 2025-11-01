@@ -20049,11 +20049,10 @@ async function run() {
   core.info(`Target branch: ${targetBranch}`);
   core.info(`Working directory: ${workingDirectory}`);
   await updatePackages(workingDirectory);
-  const dependenciesStatus = await getDependenciesUpdateStatus();
+  const dependenciesStatus = await getDependenciesUpdateStatus(workingDirectory);
   const statusOut = dependenciesStatus.stdout;
-  core.info(`Dependencies Status: ${statusOut}`);
   if (((_a = statusOut == null ? void 0 : statusOut.trim()) == null ? void 0 : _a.length) > 0) {
-    core.info("package*.json files were changed");
+    core.info(`package*.json files were changed: ${statusOut}`);
   } else {
     core.info("no updates in package*.json files");
   }
@@ -20077,8 +20076,10 @@ async function updatePackages(worfkingDir) {
     cwd: worfkingDir
   });
 }
-async function getDependenciesUpdateStatus() {
-  return exec.getExecOutput(`git status -s package*.json`);
+async function getDependenciesUpdateStatus(worfkingDir) {
+  return exec.getExecOutput(`git status -s package*.json`, [], {
+    cwd: worfkingDir
+  });
 }
 run();
 /*! Bundled license information:

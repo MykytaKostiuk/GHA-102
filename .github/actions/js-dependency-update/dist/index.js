@@ -24115,9 +24115,13 @@ async function run() {
   await updatePackages(workingDir);
   const dependenciesStatus = await getDependenciesUpdateStatus(workingDir);
   const statusOut = dependenciesStatus.stdout;
+  await exec.exec("git branch");
+  await exec.exec("git status");
   if (((_a = statusOut == null ? void 0 : statusOut.trim()) == null ? void 0 : _a.length) > 0) {
     core.info(`Updates are available: ${statusOut}`);
     await changeCurrentBranch(targetBranch, workingDir);
+    await exec.exec("git branch");
+    await exec.exec("git status");
     await addFilesToStage(["package.json", "package-lock.json"], workingDir);
     await commit("Commit dependency updates", workingDir);
     await push(targetBranch, workingDir);

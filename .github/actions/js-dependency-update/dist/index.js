@@ -24153,7 +24153,7 @@ async function getDependenciesUpdateStatus(worfkingDir) {
 }
 async function changeCurrentBranch(targetBranch, workingDirectory) {
   core.info(`Change the current branch to : ${targetBranch}`);
-  exec.exec(`git checkout -b ${targetBranch}`, [], {
+  exec.exec(`git checkout -b "${targetBranch}"`, [], {
     cwd: workingDirectory
   });
 }
@@ -24163,7 +24163,7 @@ async function addFilesToStage(files, workingDirectory) {
   });
 }
 async function commit(message, workingDirectory) {
-  exec.exec(`git commit -m ${message}`, [], {
+  exec.exec(`git commit -m "${message}"`, [], {
     cwd: workingDirectory
   });
 }

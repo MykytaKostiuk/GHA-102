@@ -3,10 +3,8 @@ name: 17 - 2 - Custom Actions - JS
 run-name: "17 - 2 - Custom Actions - JS | base: ${{inputs.base-branch}} | target: ${{inputs.target-branch}} | dir: ${{inputs.working-directory}} | debug: ${{inputs.debug}}"
 
 permissions: 
-  contents: 
-    write
-  pull-requests: 
-    write
+  contents: write
+  pull-requests: write
 
 
 on:

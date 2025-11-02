@@ -13,33 +13,68 @@ import * as github from '@actions/github';
     3.1 If there are modified files, create a PR to the base branch using the target branch with octokit API
   4. Otherwise, conclude the custom action
   */
+
+const setupLogger = ({
+  debug,
+  prefix,
+} = { debug: false, prefix: '' }) => ({
+  debug: (message: string) => {
+    if (debug) {
+      core.info(`DEBUG ${prefix}${prefix ? ': ' : ''}${message}`);
+    }
+  },
+  error: (message: string) => {
+    core.error(`${prefix}${prefix ? ': ' : ''}${message}`);
+  }
+});
+
 async function run() {
 
   core.info('I am a custom JS action');
 
-  const baseBranch = core.getInput('base-branch');
-  const targetBranch = core.getInput('target-branch');
-  const workingDir = core.getInput('working-directory');
+  const baseBranch = core.getInput('base-branch',
+    {
+      required: true,
+      trimWhitespace: true
+    });
+  const targetBranch = core.getInput('target-branch',
+    {
+      required: true,
+      trimWhitespace: true
+    });
+  const workingDir = core.getInput('working-directory',
+    {
+      required: true,
+      trimWhitespace: true
+    });
+  const ghToken = core.getInput('gh-token',
+    {
+      required: true,
+      trimWhitespace: true
+    });
   const debug = core.getBooleanInput('debug');
-  const ghToken = core.getInput('gh-token');
+  const logger = setupLogger({
+    debug: debug,
+    prefix: '[js-dependency-update]'
+  })
+
 
   branchNameValidator(baseBranch, 'base-branch');
   branchNameValidator(targetBranch, 'target-branch');
   directoryValidator(workingDir, 'working-directory');
 
-  core.info(`Base branch: ${baseBranch}`);
-  core.info(`Target branch: ${targetBranch}`);
-  core.info(`Working directory: ${workingDir}`);
+  logger.debug(`Base branch: ${baseBranch}`);
+  logger.debug(`Target branch: ${targetBranch}`);
+  logger.debug(`Working directory: ${workingDir}`);
 
   await updatePackages(workingDir);
   const dependenciesStatus = await getDependenciesUpdateStatus(workingDir);
   const statusOut = dependenciesStatus.stdout;
 
   if (statusOut?.trim()?.length > 0) {
-    core.info(`Updates are available: ${statusOut}`);
-    await exec.exec('git config user.email "you@example.com"');
-    await exec.exec('git config user.name "Your Name"');
-
+    logger.debug(`Updates are available: ${statusOut}`);
+    await exec.exec('git config user.email "gh-automation@email.com"');
+    await exec.exec('git config user.name "gh-automation"');
 
     await changeCurrentBranch(targetBranch, workingDir);
     await addFilesToStage(['package.json', 'package-lock.json'], workingDir);
@@ -47,7 +82,7 @@ async function run() {
     await push(targetBranch, workingDir);
     await openPR(ghToken, baseBranch, targetBranch);
   } else {
-    core.info('no updates found, bye :P');
+    logger.debug('no updates found, bye :P');
     return;
   }
 
@@ -103,7 +138,7 @@ async function commit(message: string, workingDirectory: string) {
 }
 
 async function push(branch: string, workingDirectory: string) {
-  return exec.exec(`git push -u origin ${branch}`, [], {
+  return exec.exec(`git push -u origin ${branch} --force`, [], {
     cwd: workingDirectory
   });
 }

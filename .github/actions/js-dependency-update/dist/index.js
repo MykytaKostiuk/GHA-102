@@ -24098,34 +24098,75 @@ var require_github = __commonJS({
 var core = __toESM(require_core());
 var exec = __toESM(require_exec());
 var github = __toESM(require_github());
+var setupLogger = ({
+  debug,
+  prefix
+} = { debug: false, prefix: "" }) => ({
+  debug: (message) => {
+    if (debug) {
+      core.info(`DEBUG ${prefix}${prefix ? ": " : ""}${message}`);
+    }
+  },
+  error: (message) => {
+    core.error(`${prefix}${prefix ? ": " : ""}${message}`);
+  }
+});
 async function run() {
   var _a;
   core.info("I am a custom JS action");
-  const baseBranch = core.getInput("base-branch");
-  const targetBranch = core.getInput("target-branch");
-  const workingDir = core.getInput("working-directory");
+  const baseBranch = core.getInput(
+    "base-branch",
+    {
+      required: true,
+      trimWhitespace: true
+    }
+  );
+  const targetBranch = core.getInput(
+    "target-branch",
+    {
+      required: true,
+      trimWhitespace: true
+    }
+  );
+  const workingDir = core.getInput(
+    "working-directory",
+    {
+      required: true,
+      trimWhitespace: true
+    }
+  );
+  const ghToken = core.getInput(
+    "gh-token",
+    {
+      required: true,
+      trimWhitespace: true
+    }
+  );
   const debug = core.getBooleanInput("debug");
-  const ghToken = core.getInput("gh-token");
+  const logger = setupLogger({
+    debug,
+    prefix: "[js-dependency-update]"
+  });
   branchNameValidator(baseBranch, "base-branch");
   branchNameValidator(targetBranch, "target-branch");
   directoryValidator(workingDir, "working-directory");
-  core.info(`Base branch: ${baseBranch}`);
-  core.info(`Target branch: ${targetBranch}`);
-  core.info(`Working directory: ${workingDir}`);
+  logger.debug(`Base branch: ${baseBranch}`);
+  logger.debug(`Target branch: ${targetBranch}`);
+  logger.debug(`Working directory: ${workingDir}`);
   await updatePackages(workingDir);
   const dependenciesStatus = await getDependenciesUpdateStatus(workingDir);
   const statusOut = dependenciesStatus.stdout;
   if (((_a = statusOut == null ? void 0 : statusOut.trim()) == null ? void 0 : _a.length) > 0) {
-    core.info(`Updates are available: ${statusOut}`);
-    await exec.exec('git config user.email "you@example.com"');
-    await exec.exec('git config user.name "Your Name"');
+    logger.debug(`Updates are available: ${statusOut}`);
+    await exec.exec('git config user.email "gh-automation@email.com"');
+    await exec.exec('git config user.name "gh-automation"');
     await changeCurrentBranch(targetBranch, workingDir);
     await addFilesToStage(["package.json", "package-lock.json"], workingDir);
     await commit("Commit dependency updates", workingDir);
     await push(targetBranch, workingDir);
     await openPR(ghToken, baseBranch, targetBranch);
   } else {
-    core.info("no updates found, bye :P");
+    logger.debug("no updates found, bye :P");
     return;
   }
 }
@@ -24170,7 +24211,7 @@ async function commit(message, workingDirectory) {
   });
 }
 async function push(branch, workingDirectory) {
-  return exec.exec(`git push -u origin ${branch}`, [], {
+  return exec.exec(`git push -u origin ${branch} --force`, [], {
     cwd: workingDirectory
   });
 }

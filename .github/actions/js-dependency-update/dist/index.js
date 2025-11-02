@@ -24157,29 +24157,29 @@ async function getDependenciesUpdateStatus(worfkingDir) {
 }
 async function changeCurrentBranch(targetBranch, workingDirectory) {
   core.info(`Change the current branch to : ${targetBranch}`);
-  await exec.exec(`git checkout -B "${targetBranch}"`, [], {
+  return exec.exec(`git checkout -B "${targetBranch}"`, [], {
     cwd: workingDirectory
   });
 }
 async function addFilesToStage(files, workingDirectory) {
-  exec.exec(`git add -v ${files.join(" ")}`, [], {
+  return exec.exec(`git add -v ${files.join(" ")}`, [], {
     cwd: workingDirectory
   });
 }
 async function commit(message, workingDirectory) {
-  exec.exec(`git commit -m "${message}"`, [], {
+  return exec.exec(`git commit -m "${message}"`, [], {
     cwd: workingDirectory
   });
 }
 async function push(branch, workingDirectory) {
-  exec.exec(`git push -u origin ${branch}`, [], {
+  return exec.exec(`git push -u origin ${branch}`, [], {
     cwd: workingDirectory
   });
 }
 async function openPR(ghToken, baseBranch, targetBranch) {
   const octokit = github.getOctokit(ghToken);
   try {
-    await octokit.rest.pulls.create({
+    return octokit.rest.pulls.create({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
       title: `Update NPM dependencies`,

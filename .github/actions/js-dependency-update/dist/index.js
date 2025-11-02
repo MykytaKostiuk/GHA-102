@@ -24163,12 +24163,12 @@ async function addFilesToStage(files, workingDirectory) {
   });
 }
 async function commit(message, workingDirectory) {
-  exec.exec(`git commit -m ${message}`, [], {
+  exec.exec(`git commit -m '${message}'`, [], {
     cwd: workingDirectory
   });
 }
 async function push(branch, workingDirectory) {
-  exec.exec(`git push -u origin ${branch}`, [], {
+  exec.exec(`git push -u origin '${branch}'`, [], {
     cwd: workingDirectory
   });
 }

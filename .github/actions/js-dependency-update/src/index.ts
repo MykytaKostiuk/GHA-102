@@ -81,7 +81,7 @@ async function getDependenciesUpdateStatus(worfkingDir: string): Promise<exec.Ex
 
 async function changeCurrentBranch(targetBranch: string, workingDirectory: string) {
   core.info(`Change the current branch to : ${targetBranch}`)
-  exec.exec(`git checkout ${targetBranch}`, [], {
+  exec.exec(`git checkout -b ${targetBranch}`, [], {
     cwd: workingDirectory
   })
 }
@@ -93,13 +93,13 @@ async function addFilesToStage(files: string[], workingDirectory: string) {
 }
 
 async function commit(message: string, workingDirectory: string) {
-  exec.exec(`git commit -m '${message}'`, [], {
+  exec.exec(`git commit -m ${message}`, [], {
     cwd: workingDirectory
   });
 }
 
 async function push(branch: string, workingDirectory: string) {
-  exec.exec(`git push -u origin '${branch}'`, [], {
+  exec.exec(`git push -u origin ${branch}`, [], {
     cwd: workingDirectory
   });
 }

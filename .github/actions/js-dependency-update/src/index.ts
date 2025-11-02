@@ -86,7 +86,7 @@ async function getDependenciesUpdateStatus(worfkingDir: string): Promise<exec.Ex
 
 async function changeCurrentBranch(targetBranch: string, workingDirectory: string) {
   core.info(`Change the current branch to : ${targetBranch}`)
-  exec.exec(`git checkout -b "${targetBranch}"`, [], {
+  await exec.exec(`git checkout -B "${targetBranch}"`, [], {
     cwd: workingDirectory
   })
 }

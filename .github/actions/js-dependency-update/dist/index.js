@@ -24157,7 +24157,7 @@ async function getDependenciesUpdateStatus(worfkingDir) {
 }
 async function changeCurrentBranch(targetBranch, workingDirectory) {
   core.info(`Change the current branch to : ${targetBranch}`);
-  exec.exec(`git checkout -b "${targetBranch}"`, [], {
+  await exec.exec(`git checkout -B "${targetBranch}"`, [], {
     cwd: workingDirectory
   });
 }

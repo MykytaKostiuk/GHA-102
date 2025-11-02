@@ -1,7 +1,6 @@
 import time
 import requests
-import environment
-
+import os
 
 if __name__ == "__main__":
     print("Hello world")
@@ -18,9 +17,9 @@ if __name__ == "__main__":
 
 
     def run():
-        url = environment.get("INPUT_URL")
-        delay = int(environment.get("INPUT_DELAY"))
-        max_trials = int(environment.get("INPUT_MAX_TRIALS"))
+        url = os.getenv("INPUT_URL")
+        delay = int(os.getenv("INPUT_DELAY"))
+        max_trials = int(os.getenv("INPUT_MAX_TRIALS"))
 
         accessible = ping_url(url, delay, max_trials)
         if accessible:

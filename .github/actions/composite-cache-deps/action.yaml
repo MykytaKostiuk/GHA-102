@@ -39,4 +39,4 @@ runs:
       shell: bash
       run: | 
         echo "Install Dependencies"
-        ${{inputs.target-env == "dev" && npm ci || npm install --omit=dev}}
+        ${{inputs.target-env == 'dev' && npm ci || npm install --omit=dev}}

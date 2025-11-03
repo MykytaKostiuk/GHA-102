@@ -12,11 +12,11 @@ def ping_url(url, delay, max_trials):
                 return True
         except requests.ConnectionError:
             print(
-                f"Website ${url} is unreachable. Retrying in. ${delay} seconds...")
+                f"Website {url} is unreachable. Retrying in. {delay} seconds...")
             time.sleep(delay)
             trials += 1
         except requests.exceptions.MissingSchema:
-            print(f"Invalid URL format: ${url}.")
+            print(f"Invalid URL format: {url}.")
             return False
     return False
 
@@ -28,7 +28,7 @@ def run():
 
     accessible = ping_url(url, delay, max_trials)
     if accessible:
-        print(f"Website ${url} is reachable")
+        print(f"Website {url} is reachable")
     else:
         raise Exception(
             f"The URL {url} is not accessible after {max_trials} trials.")

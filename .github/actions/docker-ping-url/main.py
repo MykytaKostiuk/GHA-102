@@ -33,8 +33,6 @@ def run():
         raise Exception(
             f"The URL {url} is not accessible after {max_trials} trials.")
 
- 
-run()
 
 if __name__ == "__main__":
-    print("Hello world")
+    run()

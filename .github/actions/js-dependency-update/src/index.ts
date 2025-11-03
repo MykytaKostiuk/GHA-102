@@ -31,27 +31,15 @@ const setupLogger = ({
 async function run() {
 
   core.info('I am a custom JS action');
+  const basicExecConfig = {
+    required: true,
+    trimWhitespace: true
+  };
 
-  const baseBranch = core.getInput('base-branch',
-    {
-      required: true,
-      trimWhitespace: true
-    });
-  const targetBranch = core.getInput('target-branch',
-    {
-      required: true,
-      trimWhitespace: true
-    });
-  const workingDir = core.getInput('working-directory',
-    {
-      required: true,
-      trimWhitespace: true
-    });
-  const ghToken = core.getInput('gh-token',
-    {
-      required: true,
-      trimWhitespace: true
-    });
+  const baseBranch = core.getInput('base-branch', basicExecConfig);
+  const targetBranch = core.getInput('target-branch', basicExecConfig);
+  const workingDir = core.getInput('working-directory', basicExecConfig);
+  const ghToken = core.getInput('gh-token', basicExecConfig);
   const debug = core.getBooleanInput('debug');
   const logger = setupLogger({
     debug: debug,
@@ -71,8 +59,12 @@ async function run() {
   const dependenciesStatus = await getDependenciesUpdateStatus(workingDir);
   const statusOut = dependenciesStatus.stdout;
 
-  if (statusOut?.trim()?.length > 0) {
+  const toBeUpdated = statusOut?.trim()?.length > 0;
+  core.setOutput('updates-available', toBeUpdated);
+
+  if (toBeUpdated) {
     logger.debug(`Updates are available: ${statusOut}`);
+    core.setOutput('updates-available', true);
     await exec.exec('git config user.email "gh-automation@email.com"');
     await exec.exec('git config user.name "gh-automation"');
 

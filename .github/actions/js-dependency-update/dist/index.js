@@ -18917,7 +18917,7 @@ var require_core = __commonJS({
 Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports2.getBooleanInput = getBooleanInput2;
-    function setOutput(name, value) {
+    function setOutput2(name, value) {
       const filePath = process.env["GITHUB_OUTPUT"] || "";
       if (filePath) {
         return file_command_1.issueFileCommand("OUTPUT", file_command_1.prepareKeyValueMessage(name, value));
@@ -18925,7 +18925,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       process.stdout.write(os.EOL);
       command_1.issueCommand("set-output", { name }, utils_1.toCommandValue(value));
     }
-    exports2.setOutput = setOutput;
+    exports2.setOutput = setOutput2;
     function setCommandEcho(enabled) {
       command_1.issue("echo", enabled ? "on" : "off");
     }
@@ -24114,34 +24114,14 @@ var setupLogger = ({
 async function run() {
   var _a;
   core.info("I am a custom JS action");
-  const baseBranch = core.getInput(
-    "base-branch",
-    {
-      required: true,
-      trimWhitespace: true
-    }
-  );
-  const targetBranch = core.getInput(
-    "target-branch",
-    {
-      required: true,
-      trimWhitespace: true
-    }
-  );
-  const workingDir = core.getInput(
-    "working-directory",
-    {
-      required: true,
-      trimWhitespace: true
-    }
-  );
-  const ghToken = core.getInput(
-    "gh-token",
-    {
-      required: true,
-      trimWhitespace: true
-    }
-  );
+  const basicExecConfig = {
+    required: true,
+    trimWhitespace: true
+  };
+  const baseBranch = core.getInput("base-branch", basicExecConfig);
+  const targetBranch = core.getInput("target-branch", basicExecConfig);
+  const workingDir = core.getInput("working-directory", basicExecConfig);
+  const ghToken = core.getInput("gh-token", basicExecConfig);
   const debug = core.getBooleanInput("debug");
   const logger = setupLogger({
     debug,
@@ -24156,8 +24136,11 @@ async function run() {
   await updatePackages(workingDir);
   const dependenciesStatus = await getDependenciesUpdateStatus(workingDir);
   const statusOut = dependenciesStatus.stdout;
-  if (((_a = statusOut == null ? void 0 : statusOut.trim()) == null ? void 0 : _a.length) > 0) {
+  const toBeUpdated = ((_a = statusOut == null ? void 0 : statusOut.trim()) == null ? void 0 : _a.length) > 0;
+  core.setOutput("updates-available", toBeUpdated);
+  if (toBeUpdated) {
     logger.debug(`Updates are available: ${statusOut}`);
+    core.setOutput("updates-available", true);
     await exec.exec('git config user.email "gh-automation@email.com"');
     await exec.exec('git config user.name "gh-automation"');
     await changeCurrentBranch(targetBranch, workingDir);

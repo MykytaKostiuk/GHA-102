@@ -27,6 +27,9 @@ def run():
     max_trials = int(os.getenv("INPUT_MAX_TRIALS"))
 
     accessible = ping_url(url, delay, max_trials)
+    file = open(os.getenv("GITHUB_OUTPUT"), 'a')
+    print(f'url-reachable={accessible}', file=file)
+    
     if accessible:
         print(f"Website {url} is reachable")
     else:

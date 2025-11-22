@@ -77,9 +77,6 @@ async function run() {
     logger.debug('no updates found, bye :P');
     return;
   }
-
-
-
 }
 
 function branchNameValidator(value: string, key: string) {

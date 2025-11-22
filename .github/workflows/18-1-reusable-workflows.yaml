@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       build-status: ${{steps.build.outputs.build-status}}
-      url: ${{steps.build.outputs.url}}
+      url: ${{steps.deploy.outputs.url}}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v5
@@ -33,4 +33,4 @@ jobs:
         id: deploy
         run: | 
           echo "Deploying build artifacts"
-          echo "url='https://www.google.com'" >> "$GITHUB_OUTPUT" 
+          echo "url=https://www.google.com" >> "$GITHUB_OUTPUT" 

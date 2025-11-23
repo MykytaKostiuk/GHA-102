@@ -12,4 +12,5 @@ jobs:
     needs: deploy
     uses: MykytaKostiuk/github-actions-course-example-e2e/.github/workflows/e2e.yaml@main
     secrets: 
+      # This token allows to read the code from the reusable workflow repo
       access-token: ${{ secrets.GH_TOKEN_RW_102 }}

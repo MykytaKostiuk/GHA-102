@@ -138,3 +138,4 @@ vite.config.ts.timestamp-*
 
 .github/actions/**/node_modules
 venv
+.DS_Store

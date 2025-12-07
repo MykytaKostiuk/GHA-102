@@ -29,7 +29,7 @@ jobs:
         env:
           TITLE: ${{github.event.pull_request.title}}
         run: | 
-          title=${{ env.TITLE }}
+          title=$TITLE
           if [[ $title =~ ^feat ]]; then
             echo "PR is a feature"
             exit 0

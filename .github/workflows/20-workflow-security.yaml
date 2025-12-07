@@ -20,3 +20,20 @@ jobs:
             echo "PR is not a feature"
             exit 1
           fi
+  safer-pr:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout the code
+        uses: actions/checkout@v5
+      - name: Check PR title
+        env:
+          TITLE: ${{github.event.pull_request.title}}
+        run: | 
+          title=${{ env.TITLE }}
+          if [[ $title =~ ^feat ]]; then
+            echo "PR is a feature"
+            exit 0
+          else
+            echo "PR is not a feature"
+            exit 1
+          fi

@@ -1,5 +1,8 @@
 # GHA-102
 
 > Hello World!
->[!note]Test Functions
+
+
+>[!NOTE]
+> Test Functions
 > One more comment
